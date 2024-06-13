@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  app:  # This defines your Node.js application service
+    container_name: lafs-api
+    restart: always
+    build: .
+    ports:
+      - '3000:3000'
+    links:
+      - mongo  # This links to the Mongo service defined below
+    environment:
+      - DB_HOST=mongo  # Environment variable for the database host
+      - DB_NAME=lafs-db  # Environment variable for the database name
+
+  mongo:  # This defines your MongoDB service
+    container_name: lafs-db
+    image: 'mongo:4'
+    ports:
+      - '27017:27017'
+
+networks:
+  default:
+    name: lafs-net
+    external: true
